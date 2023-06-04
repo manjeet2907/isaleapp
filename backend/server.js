@@ -24,7 +24,9 @@ app.use(express.urlencoded({ extended: false }));
 // All Routes Import
 
 // Api  EndPoints
-
+app.get("/api/v1/test", (req, res) => {
+  res.json({ app: "hi From the test api" });
+});
 // --error Middlewares
 
 // Handling Uncaught Exception
