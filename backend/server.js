@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
+import { morganMiddleware, systemLogs } from "./utils/Logger.js";
 
 // app configs goes here
 
@@ -21,6 +22,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
+//-- custom logger fo production
+app.use(morganMiddleware);
+
 // All Routes Import
 
 // Api  EndPoints
@@ -36,12 +40,15 @@ app.get("/api/v1/test", (req, res) => {
 // --------------------------deployment------------------------------
 
 // Listener
-app.listen(PORT, () =>
+app.listen(PORT, () => {
   console.log(
     `Server running in ${chalk.yellow.bold(
       process.env.NODE_ENV
     )} mode on port- ${chalk.blue.bold(PORT)}`
-  )
-);
+  );
+  systemLogs.info(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
+  );
+});
 
 // Unhandled Promise Rejection
