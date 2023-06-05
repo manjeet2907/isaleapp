@@ -5,6 +5,7 @@ import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
 import { morganMiddleware, systemLogs } from "./utils/Logger.js";
+import connectionToDB from "./config/db.js";
 
 // app configs goes here
 
@@ -36,7 +37,7 @@ app.get("/api/v1/test", (req, res) => {
 // Handling Uncaught Exception
 
 // DB Config
-
+await connectionToDB();
 // --------------------------deployment------------------------------
 
 // Listener
