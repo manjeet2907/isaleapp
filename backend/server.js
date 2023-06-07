@@ -6,7 +6,7 @@ import express from "express";
 import morgan from "morgan";
 import { morganMiddleware, systemLogs } from "./utils/Logger.js";
 import connectionToDB from "./config/db.js";
-
+import mongoSanitize from "express-mongo-sanitize";
 // app configs goes here
 
 const app = express();
@@ -22,8 +22,8 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-
-//-- custom logger fo production
+app.use(mongoSanitize())
+//-- custom logger for production
 app.use(morganMiddleware);
 
 // All Routes Import
