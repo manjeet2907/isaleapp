@@ -7,6 +7,7 @@ import morgan from "morgan";
 import { morganMiddleware, systemLogs } from "./utils/Logger.js";
 import connectionToDB from "./config/db.js";
 import mongoSanitize from "express-mongo-sanitize";
+import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 // app configs goes here
 
 const app = express();
@@ -22,7 +23,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-app.use(mongoSanitize())
+app.use(mongoSanitize());
 //-- custom logger for production
 app.use(morganMiddleware);
 
@@ -33,6 +34,8 @@ app.get("/api/v1/test", (req, res) => {
   res.json({ app: "hi From the test api" });
 });
 // --error Middlewares
+app.use(notFound);
+app.use(errorHandler);
 
 // Handling Uncaught Exception
 
