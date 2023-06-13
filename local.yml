@@ -24,6 +24,7 @@ services:
   # for our react app-frontend
   client:
     environment:
+      - CHOKIDAR_USEPOLLING=true
       - WDS_SOCKET_PORT=0
     build:
       context: ./client
