@@ -12,4 +12,4 @@ RUN npm install
 
 COPY . ${APP_HOME}
 
-CMD ["npm","start"]
+CMD ["npm","run", "start-watch"]

@@ -7,7 +7,8 @@ import morgan from "morgan";
 import { morganMiddleware, systemLogs } from "./utils/Logger.js";
 import connectionToDB from "./config/db.js";
 import mongoSanitize from "express-mongo-sanitize";
-import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
+import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
+import { apiLimiter } from "./middleware/apiLimiter.js";
 // app configs goes here
 
 const app = express();
@@ -28,11 +29,27 @@ app.use(mongoSanitize());
 app.use(morganMiddleware);
 
 // All Routes Import
+import authRoutes from "./routes/authRoutes.js";
+// import userRoutes from "./routes/userRoutes.js";
+// import customerRoutes from "./routes/customerRoutes.js";
+// import documentRoutes from "./routes/documentRoutes.js";
+// import uploadRoutes from "./routes/uploadRoutes.js";
 
 // Api  EndPoints
+app.use("/api/v1/auth", authRoutes);
+// app.use("/api/v1/user", apiLimiter, userRoutes);
+// app.use("/api/v1/customer", apiLimiter, customerRoutes);
+// app.use("/api/v1/document", apiLimiter, documentRoutes);
+// app.use("/api/v1/upload", apiLimiter, uploadRoutes);
+
 app.get("/api/v1/test", (req, res) => {
   res.json({ app: "hi From the test api" });
 });
+/**
+ ** this is test route
+
+ */
+
 // --error Middlewares
 app.use(notFound);
 app.use(errorHandler);

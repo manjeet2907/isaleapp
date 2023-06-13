@@ -1,6 +1,7 @@
 version: "3.9"
 
 services:
+  # for running Apis
   api:
     restart: always
     build:
@@ -20,7 +21,10 @@ services:
     networks:
       - isale
 
+  # for our react app-frontend
   client:
+    environment:
+      - WDS_SOCKET_PORT=0
     build:
       context: ./client
       dockerfile: ./docker/local/Dockerfile
@@ -31,6 +35,7 @@ services:
     networks:
       - isale
 
+  # for mongodb instance
   mongodb:
     image: mongo:5.0.6-focal
     restart: always
@@ -44,6 +49,7 @@ services:
     networks:
       - isale
 
+  # mongo express for development side mongo controls
   mongo-express:
     image: mongo-express:0.54.0
     depends_on:
@@ -59,6 +65,7 @@ services:
     networks:
       - isale
 
+  # mailhog for development mode mail services
   mailhog:
     image: mailhog/mailhog:v1.0.0
     ports:
@@ -67,6 +74,7 @@ services:
     networks:
       - isale
 
+  # nginx block for reverse proxy
   nginx:
     build:
       context: ./docker/local/nginx
